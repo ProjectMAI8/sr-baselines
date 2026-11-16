@@ -1,0 +1,11 @@
+weights/
+preset/
+outputs/
+logs/
+data/
+*.pth
+*.ckpt
+*.pkl
+*.safetensors
+*.bin
+__pycache__/
