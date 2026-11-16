@@ -93,19 +93,45 @@ sbatch run_diffbir_v1.slurm   # DiffBIR v1
 
 ## Results
 
-All experiments at ×4 upscaling. Full per-image and average metrics are in the `metrics/` folder:
+All experiments at ×4 upscaling on the StableSR test sets (RealSRVal_crop128 and DrealSRVal_crop128).
+↑ = higher is better, ↓ = lower is better. **Bold** = best per column.
+
+Settings: OSEDiff uses 1 diffusion step; DiffBIR v2 uses 50 steps (spaced sampler, CFG scale 4).
+
+### RealSR (RealSRVal_crop128)
+
+| Model | PSNR ↑ | SSIM ↑ | LPIPS ↓ | DISTS ↓ | CLIPIQA ↑ | NIQE ↓ | MUSIQ ↑ | MANIQA ↑ | FID ↓ |
+|---|---|---|---|---|---|---|---|---|---|
+| OSEDiff | **25.15** | **0.7341** | **0.2920** | **0.2127** | 0.6690 | 5.65 | 69.09 | 0.6331 | **123.46** |
+| DiffBIR v1 | 24.81 | 0.6595 | 0.3608 | 0.2311 | 0.6447 | **5.53** | 64.94 | 0.6232 | 128.09 |
+| DiffBIR v2 | 24.83 | 0.6501 | 0.3650 | 0.2399 | **0.7052** | 5.84 | **69.28** | **0.6502** | 130.75 |
+
+### DRealSR (DrealSRVal_crop128)
+
+| Model | PSNR ↑ | SSIM ↑ | LPIPS ↓ | DISTS ↓ | CLIPIQA ↑ | NIQE ↓ | MUSIQ ↑ | MANIQA ↑ | FID ↓ |
+|---|---|---|---|---|---|---|---|---|---|
+| OSEDiff | **27.92** | **0.7836** | **0.2967** | **0.2163** | 0.6953 | 6.45 | 64.68 | 0.5896 | **135.56** |
+| DiffBIR v1 | 26.82 | 0.6633 | 0.4497 | 0.2730 | 0.6370 | **6.27** | 60.86 | 0.5911 | 167.60 |
+| DiffBIR v2 | 25.90 | 0.6245 | 0.4669 | 0.2882 | **0.7070** | 6.33 | **66.13** | **0.6209** | 180.37 |
+
+### Summary
+
+- **OSEDiff** is best on all fidelity and reference-based perceptual metrics (PSNR, SSIM, LPIPS, DISTS, FID) on both test sets, while needing only a single diffusion step.
+- **DiffBIR v2** scores highest on most no-reference quality metrics (CLIPIQA, MUSIQ, MANIQA), i.e. its outputs look sharper and more detailed, but they are less faithful to the ground truth.
+- **DiffBIR v1** achieves the best NIQE but is otherwise between the two.
+
+### Log files
+
+Full per-image and average metrics are in the `metrics/` folder:
 
 | Log file | Model | Test set |
 |---|---|---|
-| `osediff_RealSR.log` | OSEDiff | RealSR |
-| `diffbir_v2_RealSR.log` | DiffBIR v2 | RealSR |
-| `diffbir_v2_DRealSR.log` | DiffBIR v2 | DRealSR |
-| `diffbir_v2_RealSRVal_crop128.log` | DiffBIR v2 | RealSRVal_crop128 |
-| `diffbir_v2_DrealSRVal_crop128.log` | DiffBIR v2 | DrealSRVal_crop128 |
+| `osediff_RealSR.log` | OSEDiff | RealSRVal_crop128 |
+| `osediff_DRealSR.log` | OSEDiff | DrealSRVal_crop128 |
 | `diffbir_v1_RealSRVal_crop128.log` | DiffBIR v1 | RealSRVal_crop128 |
 | `diffbir_v1_DrealSRVal_crop128.log` | DiffBIR v1 | DrealSRVal_crop128 |
-
-Metrics: PSNR ↑, SSIM ↑, LPIPS ↓, DISTS ↓, CLIPIQA ↑, NIQE ↓, MUSIQ ↑, MANIQA ↑, FID ↓
+| `diffbir_v2_RealSRVal_crop128.log` | DiffBIR v2 | RealSRVal_crop128 |
+| `diffbir_v2_DrealSRVal_crop128.log` | DiffBIR v2 | DrealSRVal_crop128 |
 
 ## Credits
 
