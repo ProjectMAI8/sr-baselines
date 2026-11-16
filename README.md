@@ -13,6 +13,7 @@ All experiments were run on the ADA GPU cluster at TU Darmstadt.
 
 ## Repository structure
 
+```
 sr-baselines/
 ├── OSEDiff/               # OSEDiff code
 ├── DiffBIR/               # DiffBIR code
@@ -20,6 +21,7 @@ sr-baselines/
 ├── run_diffbir.slurm      # SLURM job script for DiffBIR v2
 ├── run_diffbir_v1.slurm   # SLURM job script for DiffBIR v1
 └── README.md
+```
 
 ## Datasets
 
@@ -36,21 +38,24 @@ Original datasets: [RealSR](https://github.com/csjcai/RealSR) · [DRealSR](https
 License: [S-Lab License 1.0](https://github.com/IceClear/StableSR/blob/main/LICENSE.txt)
 
 Download:
-bash
+
+```bash
 pip install -U huggingface_hub
 huggingface-cli download Iceclear/StableSR-TestSets --repo-type dataset --local-dir data/StableSR-TestSets
+```
 
 Each test set contains `test_LR/` (input) and `test_HR/` (ground truth) folders.
 
 ## Pretrained weights
 
 Weights are **not included**. Download them as described in the official repositories:
+
 - **OSEDiff:** Stable Diffusion 2.1 base, OSEDiff weights (`osediff.pkl`), DAPE and RAM weights – see the [OSEDiff README](https://github.com/cswry/OSEDiff)
 - **DiffBIR:** see the [DiffBIR README](https://github.com/XPixelGroup/DiffBIR) (weights go into `DiffBIR/weights/`)
 
 ## Setup
 
-bash
+```bash
 # OSEDiff
 cd OSEDiff
 conda create -n osediff python=3.10 -y
@@ -62,25 +67,29 @@ cd ../DiffBIR
 conda create -n diffbir python=3.10 -y
 conda activate diffbir
 pip install -r requirements.txt
+```
 
 ## Running
 
 ### OSEDiff
-bash
+
+```bash
 cd OSEDiff
 python test_osediff.py \
   -i ../data/StableSR-TestSets/RealSRVal_crop128/test_LR \
   -o ../outputs/osediff/RealSR \
   --osediff_path preset/models/osediff.pkl \
-  --pretrained_model_name_or_path <path to stable-diffusion-2-1-base> \
-  --ram_ft_path <path to DAPE.pth> \
-  --ram_path <path to ram_swin_large_14m.pth>
-
+  --pretrained_model_name_or_path PATH_TO_SD21_BASE \
+  --ram_ft_path PATH_TO_DAPE \
+  --ram_path PATH_TO_RAM
+```
 
 ### DiffBIR (on the cluster via SLURM)
-bash
+
+```bash
 sbatch run_diffbir.slurm      # DiffBIR v2
 sbatch run_diffbir_v1.slurm   # DiffBIR v1
+```
 
 ## Results
 
